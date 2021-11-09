@@ -7,7 +7,7 @@ import mariadb
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
+@app.route('/connect_db')
 def test_connect():
     # Connect to MariaDB Platform
     try:
@@ -15,7 +15,7 @@ def test_connect():
                                password='pass123',
                                host='localhost',
                                port=3307,
-                               database='historic')
+                               database='calculadora')
     except:
         return 'Error connecting to MariaDB'
     return 'Connecting to MariaDB OK'
