@@ -1,25 +1,19 @@
-from flask import Flask, request
-from flask import jsonify
+from flask import Flask
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
-import mariadb
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/connect_db')
-def test_connect():
-    # Connect to MariaDB Platform
-    try:
-        conn = mariadb.connect(user='root',
-                               password='pass123',
-                               host='localhost',
-                               port=3307,
-                               database='calculadora')
-    except:
-        return 'Error connecting to MariaDB'
-    return 'Connecting to MariaDB OK'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:user123@localhost/historic'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+mariadbconnector://root:pass123@localhost:3307/calculadora'
+app.config['SECRET_KEY'] = 'secret'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(app)
+
+from controller.routes import *
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5003)
