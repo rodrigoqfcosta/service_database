@@ -3,13 +3,12 @@ from flask import render_template
 from flask import jsonify
 
 import mariadb
-from model.tabela import Log
-from flask import jsonify, request
-from log import app
+from model.entity_log import Log
+
 
 @app.route('/')
 def list_all():
-    from model.entity_log import Log
+    
 
     lista=[]
     calculos = Log.query.all()
