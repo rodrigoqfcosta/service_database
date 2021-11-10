@@ -1,15 +1,14 @@
-from log import app
-from flask import render_template
-from flask import jsonify
+import sqlalchemy
+from log import app, engine
+from flask import render_template, jsonify, request
 
 import mariadb
 from model.entity_log import Log
+from datetime import datetime
 
 
 @app.route('/')
 def list_all():
-    
-
     lista=[]
     calculos = Log.query.all()
     for linha in calculos:
@@ -19,12 +18,25 @@ def list_all():
     return jsonify(lista_parsed)
 
 
-""" @app.route('/cadastrar', methods=['POST'])
-def list_all($):
-    int_input_1 = request.getJ
-    int_input_2 = request.args.get('arg2', type=int)
-    int_output = {'result': (int_input_1 + int_input_2)}
-    return jsonify(int_output) """
+@app.route('/cadastrar', methods=['POST'])
+def cadastrar():
+    content = request.json
+    print(content)
+
+    tipo_oper = content["tipo_oper"]
+    operacao = content["operacao"]
+    args = content["args"]
+
+    newLog = Log(tipo_oper, operacao, args)
+
+    Session = sqlalchemy.orm.sessionmaker()
+    Session.configure(bind=engine)
+    Session = Session()
+
+    Session.add(newLog)
+    Session.commit()
+
+    return "Sucesso"
 
 
 @app.route('/connect_db')

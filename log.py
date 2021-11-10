@@ -1,17 +1,17 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 CORS(app)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:user123@localhost/historic'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+mariadbconnector://root:pass123@localhost:3307/calculadora'
-app.config['SECRET_KEY'] = 'secret'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+engine = create_engine('mariadb+mariadbconnector://root:root@localhost:3307/calculadora')
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-db = SQLAlchemy(app)
+Base = declarative_base()
+Base.query = db_session.query_property()                                         
 
 from controller.routes import *
 
