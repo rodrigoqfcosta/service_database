@@ -1,10 +1,10 @@
+from flask import jsonify, request
 import sqlalchemy
-from log import app, engine
-from flask import render_template, jsonify, request
-
 import mariadb
+
 from model.entity_log import Log
-from datetime import datetime
+from log import app, engine
+from config.database import database_infos
 
 
 @app.route('/')
@@ -41,13 +41,13 @@ def cadastrar():
 
 @app.route('/connect_db')
 def test_connect():
-    # Connect to MariaDB Platform
+    # Test Connect to MariaDB Platform
     try:
-        conn = mariadb.connect(user='root',
-                               password='pass123',
-                               host='localhost',
-                               port=3307,
-                               database='calculadora')
+        conn = mariadb.connect(user=database_infos['user'],
+                               password=database_infos['password'],
+                               host=database_infos['host'],
+                               port=database_infos['port'],
+                               database=database_infos['database'])
     except:
         return 'Error connecting to MariaDB'
     return 'Connecting to MariaDB OK'
