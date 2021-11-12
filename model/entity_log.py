@@ -10,7 +10,6 @@ class Log(Base):
       self.args      = args
 
    __tablename__ = 'log'
-
    id        = Column(Integer, primary_key=True, autoincrement='ignore_fk')
    data_oper = Column(DateTime(timezone=True), default=datetime.utcnow)
    tipo_oper = Column(String(length=100))

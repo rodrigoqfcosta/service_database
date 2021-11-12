@@ -10,10 +10,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Variaveis de ambiente database
-user = database_infos['user']
+user =     database_infos['user']
 password = database_infos['password']
-host = database_infos['host']
-port = database_infos['port']
+host =     database_infos['host']
+port =     database_infos['port']
 database = database_infos['database']
 
 # Define the MariaDB engine using MariaDB Connector/Python

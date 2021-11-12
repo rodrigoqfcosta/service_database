@@ -1,9 +1,11 @@
 import mysql.connector as mariadb
+from config.database import database_infos
 
-mariadb_connection = mariadb.connect(host='localhost',
-                                     user='root',
-                                     password='pass123',
-                                     port='3307')
+mariadb_connection = mariadb.connect(user=database_infos['user'],
+                                    password=database_infos['password'],
+                                    host=database_infos['host'],
+                                    port=database_infos['port'],
+                                    database=database_infos['database'])
 
 my_cursor = mariadb_connection.cursor()
 
